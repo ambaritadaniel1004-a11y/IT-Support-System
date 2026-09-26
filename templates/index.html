@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IT Support System</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+</head>
+
+
+<body>
+
+    <div class="app-container">
+
+
+        <!-- =====================================================
+             SIDEBAR
+        ====================================================== -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    IT
+                </div>
+
+                <div>
+                    <h2>IT Support</h2>
+                    <span>Management System</span>
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <a href="/" class="nav-item active">
+
+                    <span class="nav-icon">⌂</span>
+
+                    <span>Dashboard</span>
+
+                </a>
+
+
+                <a href="#assets" class="nav-item">
+
+                    <span class="nav-icon">▣</span>
+
+                    <span>Assets</span>
+
+                </a>
+
+
+                <a href="#tickets" class="nav-item">
+
+                    <span class="nav-icon">▤</span>
+
+                    <span>Tickets</span>
+
+                </a>
+
+            </nav>
+
+
+            <div class="sidebar-bottom">
+
+                <div class="system-status">
+
+                    <span class="online-dot"></span>
+
+                    <div>
+
+                        <strong>System Online</strong>
+
+                        <small>
+                            All services operational
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+
+        <main class="main-content">
+
+
+            <!-- =================================================
+                 TOPBAR
+            ================================================== -->
+
+            <header class="topbar">
+
+                <div>
+
+                    <span class="breadcrumb">
+                        IT Support / Dashboard
+                    </span>
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                </div>
+
+
+                <div class="topbar-user">
+
+                    <div class="avatar">
+                        D
+                    </div>
+
+                    <div class="user-info">
+
+                        <strong>
+                            Daniel
+                        </strong>
+
+                        <span>
+                            Administrator
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =================================================
+                 FLASH MESSAGE
+            ================================================== -->
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+
+                {% if messages %}
+
+                    {% for category, message in messages %}
+
+                        <div class="flash {{ category }}">
+
+                            <span class="flash-icon">
+
+                                {% if category == "success" %}
+                                    ✓
+                                {% else %}
+                                    !
+                                {% endif %}
+
+                            </span>
+
+                            {{ message }}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+
+
+            <!-- =================================================
+                 WELCOME
+            ================================================== -->
+
+            <section class="welcome-section">
+
+                <div>
+
+                    <span class="welcome-label">
+                        OVERVIEW
+                    </span>
+
+                    <h2>
+                        Good day, Daniel 👋
+                    </h2>
+
+                    <p>
+                        Monitor your IT assets and support tickets
+                        from one place.
+                    </p>
+
+                </div>
+
+
+                <a href="/tickets/add"
+                   class="primary-button">
+
+                    <span>+</span>
+
+                    Create Ticket
+
+                </a>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
+
+            <section class="stats-grid">
+
+
+                <!-- Total Assets -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon blue">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Assets
+                        </span>
+
+                        <strong>
+                            {{ dashboard["total_assets"] }}
+                        </strong>
+
+                        <small>
+                            Registered devices
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Active Assets -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon green">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Active Assets
+                        </span>
+
+                        <strong>
+                            {{ dashboard["active_assets"] }}
+                        </strong>
+
+                        <small>
+                            Currently active
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Total Tickets -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon purple">
+                        ▤
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Tickets
+                        </span>
+
+                        <strong>
+                            {{ dashboard["total_tickets"] }}
+                        </strong>
+
+                        <small>
+                            All support requests
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Open Tickets -->
+
+                <div class="stat-card">
+
+                    <div class="stat-icon orange">
+                        !
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Open Tickets
+                        </span>
+
+                        <strong>
+                            {{ dashboard["open_tickets"] }}
+                        </strong>
+
+                        <small>
+                            Need attention
+                        </small>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================== -->
+
+            <section class="quick-actions">
+
+                <div class="section-heading">
+
+                    <div>
+
+                        <span class="section-label">
+                            QUICK ACTIONS
+                        </span>
+
+                        <h2>
+                            Manage Support
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="action-grid">
+
+
+                    <!-- Add Asset -->
+
+                    <a href="/assets/add"
+                       class="action-card">
+
+                        <div class="action-icon">
+                            +
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Add New Asset
+                            </strong>
+
+                            <span>
+                                Register a new IT device
+                            </span>
+
+                        </div>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- Create Ticket -->
+
+                    <a href="/tickets/add"
+                       class="action-card">
+
+                        <div class="action-icon">
+                            +
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Create Ticket
+                            </strong>
+
+                            <span>
+                                Report a technical problem
+                            </span>
+
+                        </div>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- Search Assets -->
+
+                    <a href="/assets/search"
+                       class="action-card">
+
+                        <div class="action-icon">
+                            ⌕
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Search Assets
+                            </strong>
+
+                            <span>
+                                Find registered devices
+                            </span>
+
+                        </div>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- Filter Tickets -->
+
+                    <a href="/tickets/filter"
+                       class="action-card">
+
+                        <div class="action-icon">
+                            ≡
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Filter Tickets
+                            </strong>
+
+                            <span>
+                                View tickets by status
+                            </span>
+
+                        </div>
+
+                        <span class="arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ANALYTICS
+            ================================================== -->
+
+            <section class="analytics-section">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ANALYTICS
+                        </span>
+
+                        <h2>
+                            System Overview
+                        </h2>
+
+                        <p>
+                            Current status of assets and support tickets.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-grid">
+
+
+                    <!-- =========================================
+                         TICKET STATUS
+                    ========================================== -->
+
+                    <div class="analytics-card">
+
+                        <div class="analytics-card-header">
+
+                            <div>
+
+                                <span class="analytics-label">
+                                    TICKET STATUS
+                                </span>
+
+                                <h3>
+                                    Ticket Distribution
+                                </h3>
+
+                            </div>
+
+                            <div class="analytics-icon purple">
+                                ▤
+                            </div>
+
+                        </div>
+
+
+                        <div class="distribution">
+
+
+                            <!-- Open -->
+
+                            <div class="distribution-item">
+
+                                <div class="distribution-info">
+
+                                    <span>
+
+                                        <i class="legend-dot open"></i>
+
+                                        Open
+
+                                    </span>
+
+                                    <strong>
+                                        {{ dashboard["open_tickets"] }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar open"
+                                        style="width:
+                                        {% if dashboard['total_tickets'] > 0 %}
+                                            {{ (dashboard['open_tickets'] / dashboard['total_tickets'] * 100)|round|int }}
+                                        {% else %}
+                                            0
+                                        {% endif %}%;">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- In Progress -->
+
+                            <div class="distribution-item">
+
+                                <div class="distribution-info">
+
+                                    <span>
+
+                                        <i class="legend-dot progress-dot"></i>
+
+                                        In Progress
+
+                                    </span>
+
+                                    <strong>
+                                        {{ dashboard["in_progress_tickets"] }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar progress-bar-blue"
+                                        style="width:
+                                        {% if dashboard['total_tickets'] > 0 %}
+                                            {{ (dashboard['in_progress_tickets'] / dashboard['total_tickets'] * 100)|round|int }}
+                                        {% else %}
+                                            0
+                                        {% endif %}%;">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Resolved -->
+
+                            <div class="distribution-item">
+
+                                <div class="distribution-info">
+
+                                    <span>
+
+                                        <i class="legend-dot resolved"></i>
+
+                                        Resolved
+
+                                    </span>
+
+                                    <strong>
+                                        {{ dashboard["resolved_tickets"] }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="progress">
+
+                                    <div
+                                        class="progress-bar resolved"
+                                        style="width:
+                                        {% if dashboard['total_tickets'] > 0 %}
+                                            {{ (dashboard['resolved_tickets'] / dashboard['total_tickets'] * 100)|round|int }}
+                                        {% else %}
+                                            0
+                                        {% endif %}%;">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- =========================================
+                         ASSET STATUS
+                    ========================================== -->
+
+                    <div class="analytics-card">
+
+                        <div class="analytics-card-header">
+
+                            <div>
+
+                                <span class="analytics-label">
+                                    ASSET STATUS
+                                </span>
+
+                                <h3>
+                                    Asset Availability
+                                </h3>
+
+                            </div>
+
+                            <div class="analytics-icon green">
+                                ▣
+                            </div>
+
+                        </div>
+
+
+                        <div class="asset-overview">
+
+
+                            <!-- Asset Circle -->
+
+                            <div
+                                class="asset-circle"
+                                style="--active-percent: {{ dashboard['active_percent'] }}%;"
+                            >
+                                <div>
+                                    <strong>{{ dashboard["active_assets"] }}</strong>
+                                    <span>Active</span>
+                                </div>
+                            </div>
+
+
+
+                            <!-- Asset Legend -->
+
+                            <div class="asset-legend">
+
+
+                                <div>
+
+                                    <span>
+
+                                        <i class="legend-dot active"></i>
+
+                                        Active
+
+                                    </span>
+
+                                    <strong>
+                                        {{ dashboard["active_assets"] }}
+                                    </strong>
+
+                                </div>
+
+
+                                <div>
+
+                                    <span>
+
+                                        <i class="legend-dot maintenance"></i>
+
+                                        Maintenance
+
+                                    </span>
+
+                                    <strong>
+                                        {{ dashboard["maintenance_assets"] }}
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 RECENT TICKETS
+            ================================================== -->
+
+            <section class="recent-section">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            ACTIVITY
+                        </span>
+
+                        <h2>
+                            Recent Support Tickets
+                        </h2>
+
+                        <p>
+                            Latest tickets recorded in the system.
+                        </p>
+
+                    </div>
+
+
+                    <a href="/tickets/filter"
+                       class="secondary-button">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+
+                <div class="recent-ticket-list">
+
+
+                    {% for ticket in tickets[:5] %}
+
+
+                    <div class="recent-ticket">
+
+
+                        <div class="recent-ticket-icon">
+                            !
+                        </div>
+
+
+                        <div class="recent-ticket-info">
+
+                            <div>
+
+                                <span class="ticket-id">
+                                    {{ ticket[0] }}
+                                </span>
+
+                                <strong>
+                                    {{ ticket[4] }}
+                                </strong>
+
+                            </div>
+
+
+                            <small>
+                                {{ ticket[2] }}
+                                ·
+                                Reported by {{ ticket[3] }}
+                            </small>
+
+                        </div>
+
+
+                        <span
+                            class="status status-{{ ticket[5]|lower|replace(' ', '-') }}">
+
+                            <span class="status-dot"></span>
+
+                            {{ ticket[5] }}
+
+                        </span>
+
+                    </div>
+
+
+                    {% else %}
+
+
+                    <!-- Empty State -->
+
+                    <div class="recent-empty">
+
+                        <div>
+                            ✓
+                        </div>
+
+                        <h3>
+                            No support activity yet
+                        </h3>
+
+                        <p>
+                            Create your first support ticket
+                            to start tracking issues.
+                        </p>
+
+                        <a href="/tickets/add"
+                           class="primary-button small">
+
+                            Create Ticket
+
+                        </a>
+
+                    </div>
+
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 ASSETS
+            ================================================== -->
+
+            <section id="assets"
+                     class="content-section">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            INVENTORY
+                        </span>
+
+                        <h2>
+                            IT Assets
+                        </h2>
+
+                        <p>
+                            Manage all registered IT equipment.
+                        </p>
+
+                    </div>
+
+
+                    <div class="section-actions">
+
+
+                        <a href="/assets/search"
+                           class="secondary-button">
+
+                            Search
+
+                        </a>
+
+
+                        <a href="/assets/add"
+                           class="primary-button small">
+
+                            + Add Asset
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Asset
+                                </th>
+
+                                <th>
+                                    Device
+                                </th>
+
+                                <th>
+                                    User
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for asset in assets %}
+
+
+                            <tr>
+
+
+                                <!-- Asset ID -->
+
+                                <td>
+
+                                    <span class="asset-id">
+                                        {{ asset[0] }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Device -->
+
+                                <td>
+
+                                    <strong>
+                                        {{ asset[1] }}
+                                    </strong>
+
+                                </td>
+
+
+                                <!-- User -->
+
+                                <td>
+
+                                    <div class="user-cell">
+
+                                        <div class="mini-avatar">
+                                            {{ asset[2][0] }}
+                                        </div>
+
+                                        {{ asset[2] }}
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    <span
+                                        class="status status-{{ asset[3]|lower|replace(' ', '-') }}">
+
+                                        <span class="status-dot"></span>
+
+                                        {{ asset[3] }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Actions -->
+
+                                <td>
+
+                                    <div class="table-actions">
+
+
+                                        <!-- Update -->
+
+                                        <form method="POST"
+                                              action="/assets/update/{{ asset[0] }}">
+
+                                            <select name="status">
+
+                                                <option value="Active"
+                                                    {% if asset[3] == "Active" %}
+                                                        selected
+                                                    {% endif %}>
+
+                                                    Active
+
+                                                </option>
+
+
+                                                <option value="Maintenance"
+                                                    {% if asset[3] == "Maintenance" %}
+                                                        selected
+                                                    {% endif %}>
+
+                                                    Maintenance
+
+                                                </option>
+
+                                            </select>
+
+
+                                            <button type="submit"
+                                                    class="icon-button">
+
+                                                Update
+
+                                            </button>
+
+                                        </form>
+
+
+
+                                        <!-- Delete -->
+
+                                        <form method="POST"
+                                              action="/assets/delete/{{ asset[0] }}"
+                                              onsubmit="return confirm('Yakin ingin menghapus aset ini?');">
+
+                                            <button type="submit"
+                                                    class="delete-button">
+
+                                                Hapus
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            {% else %}
+
+
+                            <!-- Empty State -->
+
+                            <tr>
+
+                                <td colspan="5"
+                                    class="empty-state">
+
+                                    Belum ada aset.
+
+                                </td>
+
+                            </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 TICKETS
+            ================================================== -->
+
+            <section id="tickets"
+                     class="content-section">
+
+
+                <div class="section-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            HELP DESK
+                        </span>
+
+                        <h2>
+                            Support Tickets
+                        </h2>
+
+                        <p>
+                            Track and manage technical issues.
+                        </p>
+
+                    </div>
+
+
+                    <div class="section-actions">
+
+
+                        <a href="/tickets/search"
+                           class="secondary-button">
+
+                            Search
+
+                        </a>
+
+
+                        <a href="/tickets/filter"
+                           class="secondary-button">
+
+                            Filter
+
+                        </a>
+
+
+                        <a href="/tickets/add"
+                           class="primary-button small">
+
+                            + New Ticket
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Ticket
+                                </th>
+
+                                <th>
+                                    Asset
+                                </th>
+
+                                <th>
+                                    Reporter
+                                </th>
+
+                                <th>
+                                    Problem
+                                </th>
+
+                                <th>
+                                    Created At
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Actions
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            {% for ticket in tickets %}
+
+
+                            <tr>
+
+
+                                <!-- Ticket ID -->
+
+                                <td>
+
+                                    <span class="ticket-id">
+                                        {{ ticket[0] }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Asset -->
+
+                                <td>
+
+                                    <div>
+
+                                        <strong>
+                                            {{ ticket[2] }}
+                                        </strong>
+
+                                        <small class="muted">
+                                            {{ ticket[1] }}
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Reporter -->
+
+                                <td>
+
+                                    <div class="user-cell">
+
+                                        <div class="mini-avatar">
+                                            {{ ticket[3][0] }}
+                                        </div>
+
+                                        {{ ticket[3] }}
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- Problem -->
+
+                                <td>
+
+                                    <span class="problem-text">
+                                        {{ ticket[4] }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Created At -->
+
+                                <td>
+
+                                    <span class="muted">
+                                        {{ ticket[6] }}
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Status -->
+
+                                <td>
+
+                                    <span
+                                        class="status status-{{ ticket[5]|lower|replace(' ', '-') }}">
+
+                                        <span class="status-dot"></span>
+
+                                        {{ ticket[5] }}
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- Actions -->
+
+                                <td>
+
+                                    <div class="table-actions">
+
+
+                                        <!-- Update Status -->
+
+                                        <form method="POST"
+                                              action="/tickets/update/{{ ticket[0] }}">
+
+                                            <select name="status">
+
+
+                                                <option value="Open"
+                                                    {% if ticket[5] == "Open" %}
+                                                        selected
+                                                    {% endif %}>
+
+                                                    Open
+
+                                                </option>
+
+
+                                                <option value="In Progress"
+                                                    {% if ticket[5] == "In Progress" %}
+                                                        selected
+                                                    {% endif %}>
+
+                                                    In Progress
+
+                                                </option>
+
+
+                                                <option value="Resolved"
+                                                    {% if ticket[5] == "Resolved" %}
+                                                        selected
+                                                    {% endif %}>
+
+                                                    Resolved
+
+                                                </option>
+
+                                            </select>
+
+
+                                            <button type="submit"
+                                                    class="icon-button">
+
+                                                Update
+
+                                            </button>
+
+                                        </form>
+
+
+
+                                        <!-- Delete -->
+
+                                        <form method="POST"
+                                              action="/tickets/delete/{{ ticket[0] }}"
+                                              onsubmit="return confirm('Yakin ingin menghapus tiket ini?');">
+
+                                            <button type="submit"
+                                                    class="delete-button">
+
+                                                Hapus
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+
+                            {% else %}
+
+
+                            <!-- Empty State -->
+
+                            <tr>
+
+                                <td colspan="7"
+                                    class="empty-state">
+
+                                    Belum ada tiket.
+
+                                </td>
+
+                            </tr>
+
+
+                            {% endfor %}
+
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- =================================================
+                 FOOTER
+            ================================================== -->
+
+            <footer>
+
+                <span>
+                    IT Support Management System
+                </span>
+
+                <span>
+                    Built with Python · Flask · SQLite
+                </span>
+
+            </footer>
+
+
+        </main>
+
+    </div>
+
+
+</body>
+
+</html>

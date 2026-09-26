@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Search Assets | IT Support System
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+
+<body>
+
+    <div class="form-page">
+
+        <div class="search-card">
+
+
+            <!-- =========================================
+                 HEADER
+            ========================================== -->
+
+            <div class="search-header">
+
+                <a href="/"
+                   class="back-link">
+
+                    ← Dashboard
+
+                </a>
+
+
+                <div class="search-icon">
+
+                    ⌕
+
+                </div>
+
+
+                <span class="section-label">
+
+                    ASSET MANAGEMENT
+
+                </span>
+
+
+                <h1>
+
+                    Search Assets
+
+                </h1>
+
+
+                <p>
+
+                    Cari perangkat berdasarkan ID, jenis,
+                    pengguna, atau status.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- =========================================
+                 SEARCH FORM
+            ========================================== -->
+
+            <form
+                method="GET"
+                action="/assets/search"
+                class="search-form"
+            >
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-input-icon">
+
+                        ⌕
+
+                    </span>
+
+
+                    <input
+                        type="text"
+                        name="keyword"
+                        placeholder="Contoh: IT001, Laptop, Daniel..."
+                        value="{{ keyword }}"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="form-submit"
+                >
+
+                    Search
+
+                </button>
+
+            </form>
+
+
+
+            <!-- =========================================
+                 SEARCH RESULT
+            ========================================== -->
+
+            {% if keyword %}
+
+
+                <div class="result-header">
+
+                    <div>
+
+                        <span class="section-label">
+
+                            SEARCH RESULT
+
+                        </span>
+
+
+                        <h2>
+
+                            Hasil pencarian
+
+                        </h2>
+
+                    </div>
+
+
+                    <span class="result-count">
+
+                        {{ assets|length }} result(s)
+
+                    </span>
+
+                </div>
+
+
+
+                <!-- =====================================
+                     RESULTS FOUND
+                ====================================== -->
+
+                {% if assets %}
+
+
+                    <div class="search-results">
+
+
+                        {% for asset in assets %}
+
+
+                            <div class="result-card">
+
+
+                                <!-- =================================
+                                     DEVICE
+                                ================================== -->
+
+                                <div class="result-main">
+
+                                    <div class="result-avatar">
+
+                                        {{ asset[1][0]|upper }}
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <strong>
+
+                                            {{ asset[1] }}
+
+                                        </strong>
+
+
+                                        <span>
+
+                                            {{ asset[0] }}
+
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+
+                                <!-- =================================
+                                     USER
+                                ================================== -->
+
+                                <div class="result-user">
+
+                                    <small>
+
+                                        USER
+
+                                    </small>
+
+
+                                    <span>
+
+                                        {{ asset[2] }}
+
+                                    </span>
+
+                                </div>
+
+
+
+                                <!-- =================================
+                                     STATUS
+                                ================================== -->
+
+                                <div>
+
+                                    <span
+                                        class="status status-{{ asset[3]|lower|replace(' ', '-') }}"
+                                    >
+
+                                        <span class="status-dot"></span>
+
+                                        {{ asset[3] }}
+
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+
+                        {% endfor %}
+
+
+                    </div>
+
+
+                {% else %}
+
+
+                    <!-- =====================================
+                         NO RESULTS
+                    ====================================== -->
+
+                    <div class="no-results">
+
+                        <div class="no-results-icon">
+
+                            ?
+
+                        </div>
+
+
+                        <h3>
+
+                            Aset tidak ditemukan
+
+                        </h3>
+
+
+                        <p>
+
+                            Tidak ada aset yang cocok dengan
+                            "{{ keyword }}".
+
+                        </p>
+
+                    </div>
+
+
+                {% endif %}
+
+
+            {% endif %}
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,292 @@
+```html
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search Ticket | IT Support System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="form-page">
+
+        <div class="search-card ticket-search-card">
+
+            <!-- =========================
+                 HEADER
+            ========================== -->
+
+            <div class="search-header">
+
+                <a href="/" class="back-link">
+                    ← Dashboard
+                </a>
+
+                <div class="search-icon ticket-search-icon">
+                    ⌕
+                </div>
+
+                <span class="section-label">
+                    HELP DESK
+                </span>
+
+                <h1>
+                    Search Ticket
+                </h1>
+
+                <p>
+                    Cari tiket berdasarkan ID untuk melihat
+                    detail masalah dan statusnya.
+                </p>
+
+            </div>
+
+
+            <!-- =========================
+                 SEARCH FORM
+            ========================== -->
+
+            <form
+                method="GET"
+                action="/tickets/search"
+                class="search-form"
+            >
+
+                <div class="search-input-wrapper">
+
+                    <span class="search-input-icon">
+                        ⌕
+                    </span>
+
+                    <input
+                        type="text"
+                        name="ticket_id"
+                        placeholder="Contoh: T001"
+                        value="{{ ticket_id }}"
+                        pattern="T[0-9]{3}"
+                        maxlength="4"
+                        title="ID Tiket harus menggunakan format seperti T001"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="form-submit"
+                >
+                    Search
+                </button>
+
+            </form>
+
+
+            <!-- =========================
+                 SEARCH RESULT
+            ========================== -->
+
+            {% if ticket %}
+
+                <div class="result-header">
+
+                    <div>
+
+                        <span class="section-label">
+                            TICKET FOUND
+                        </span>
+
+                        <h2>
+                            Ticket Details
+                        </h2>
+
+                    </div>
+
+                    <span class="ticket-result-id">
+                        {{ ticket[0] }}
+                    </span>
+
+                </div>
+
+
+                <!-- =========================
+                     TICKET DETAIL CARD
+                ========================== -->
+
+                <div class="ticket-detail-card">
+
+                    <!-- TOP -->
+
+                    <div class="ticket-detail-top">
+
+                        <div class="ticket-detail-title">
+
+                            <div class="ticket-detail-icon">
+                                !
+                            </div>
+
+                            <div>
+
+                                <span class="ticket-label">
+                                    TICKET ID
+                                </span>
+
+                                <h3>
+                                    {{ ticket[0] }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <span
+                            class="status status-{{ ticket[5]|lower|replace(' ', '-') }}"
+                        >
+
+                            <span class="status-dot"></span>
+
+                            {{ ticket[5] }}
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- =========================
+                         TICKET DETAILS
+                    ========================== -->
+
+                    <div class="ticket-details-grid">
+
+                        <!-- ASSET -->
+
+                        <div class="detail-item">
+
+                            <span>
+                                ASSET
+                            </span>
+
+                            <strong>
+                                {{ ticket[1] }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- DEVICE -->
+
+                        <div class="detail-item">
+
+                            <span>
+                                DEVICE
+                            </span>
+
+                            <strong>
+                                {{ ticket[2] }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- REPORTER -->
+
+                        <div class="detail-item">
+
+                            <span>
+                                REPORTER
+                            </span>
+
+                            <strong>
+                                {{ ticket[3] }}
+                            </strong>
+
+                        </div>
+
+
+                        <!-- CREATED AT -->
+
+                        <div class="detail-item">
+
+                            <span>
+                                CREATED AT
+                            </span>
+
+                            <strong>
+                                {{ ticket[6] }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                         PROBLEM DESCRIPTION
+                    ========================== -->
+
+                    <div class="problem-box">
+
+                        <span>
+                            PROBLEM DESCRIPTION
+                        </span>
+
+                        <p>
+                            {{ ticket[4] }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            <!-- =========================
+                 NO RESULT
+            ========================== -->
+
+            {% elif ticket_id %}
+
+                <div class="no-results">
+
+                    <div class="no-results-icon">
+                        ?
+                    </div>
+
+                    <h3>
+                        Tiket tidak ditemukan
+                    </h3>
+
+                    <p>
+                        Tidak ada tiket dengan ID
+                        "{{ ticket_id }}".
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+```

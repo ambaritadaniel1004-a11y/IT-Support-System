@@ -1,0 +1,527 @@
+```html
+<!DOCTYPE html>
+
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+
+        Filter Tickets | IT Support System
+
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+
+</head>
+
+
+
+<body>
+
+    <div class="form-page">
+
+        <div class="filter-card">
+
+
+
+            <!-- =========================================
+                 HEADER
+            ========================================== -->
+
+            <div class="filter-header">
+
+                <a href="/"
+
+                   class="back-link">
+
+                    ← Dashboard
+
+                </a>
+
+
+
+                <div class="filter-icon">
+
+                    ≡
+
+                </div>
+
+
+
+                <span class="section-label">
+
+                    HELP DESK
+
+                </span>
+
+
+
+                <h1>
+
+                    Filter Tickets
+
+                </h1>
+
+
+
+                <p>
+
+                    Tampilkan tiket berdasarkan status
+
+                    penyelesaian.
+
+                </p>
+
+            </div>
+
+
+
+
+
+            <!-- =========================================
+                 FILTER FORM
+            ========================================== -->
+
+            <form
+
+                method="GET"
+
+                action="/tickets/filter"
+
+                class="filter-form"
+
+            >
+
+                <div class="filter-field">
+
+                    <label for="status">
+
+                        Ticket Status
+
+                    </label>
+
+
+
+                    <select
+
+                        id="status"
+
+                        name="status"
+
+                        required
+
+                    >
+
+                        <option value="">
+
+                            Pilih status tiket
+
+                        </option>
+
+
+
+                        <option
+
+                            value="Open"
+
+                            {% if status == "Open" %}
+
+                                selected
+
+                            {% endif %}
+
+                        >
+
+                            Open
+
+                        </option>
+
+
+
+                        <option
+
+                            value="In Progress"
+
+                            {% if status == "In Progress" %}
+
+                                selected
+
+                            {% endif %}
+
+                        >
+
+                            In Progress
+
+                        </option>
+
+
+
+                        <option
+
+                            value="Resolved"
+
+                            {% if status == "Resolved" %}
+
+                                selected
+
+                            {% endif %}
+
+                        >
+
+                            Resolved
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <button
+
+                    type="submit"
+
+                    class="form-submit"
+
+                >
+
+                    Apply Filter
+
+                </button>
+
+            </form>
+
+
+
+
+
+            <!-- =========================================
+                 FILTER RESULT
+            ========================================== -->
+
+            {% if status %}
+
+
+
+                <div class="filter-result-header">
+
+                    <div>
+
+                        <span class="section-label">
+
+                            FILTER RESULT
+
+                        </span>
+
+
+
+                        <h2>
+
+                            {{ status }} Tickets
+
+                        </h2>
+
+                    </div>
+
+
+
+                    <span class="result-count">
+
+                        {{ tickets|length }} ticket(s)
+
+                    </span>
+
+                </div>
+
+
+
+
+
+                <!-- =====================================
+                     TICKET LIST
+                ====================================== -->
+
+                {% if tickets %}
+
+
+
+                    <div class="filtered-tickets">
+
+
+
+                        {% for ticket in tickets %}
+
+
+
+                            <div class="filtered-ticket">
+
+
+
+                                <!-- =================================
+                                     TICKET INFORMATION
+                                ================================== -->
+
+                                <div class="filtered-ticket-main">
+
+                                    <div class="filtered-ticket-icon">
+
+                                        !
+
+                                    </div>
+
+
+
+                                    <div>
+
+                                        <span class="ticket-id">
+
+                                            {{ ticket[0] }}
+
+                                        </span>
+
+
+
+                                        <strong>
+
+                                            {{ ticket[2] }}
+
+                                        </strong>
+
+
+
+                                        <small>
+
+                                            Asset: {{ ticket[1] }}
+
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+
+
+
+
+                                <!-- =================================
+                                     PROBLEM
+                                ================================== -->
+
+                                <div class="filtered-problem">
+
+                                    <span>
+
+                                        PROBLEM
+
+                                    </span>
+
+
+
+                                    <p>
+
+                                        {{ ticket[4] }}
+
+                                    </p>
+
+                                </div>
+
+
+
+
+
+                                <!-- =================================
+                                     REPORTER
+                                ================================== -->
+
+                                <div class="filtered-reporter">
+
+                                    <span>
+
+                                        REPORTER
+
+                                    </span>
+
+
+
+                                    <strong>
+
+                                        {{ ticket[3] }}
+
+                                    </strong>
+
+                                </div>
+
+
+
+
+
+                                <!-- =================================
+                                     CREATED AT
+                                ================================== -->
+
+                                <div class="filtered-reporter">
+
+                                    <span>
+
+                                        CREATED AT
+
+                                    </span>
+
+
+
+                                    <strong>
+
+                                        {{ ticket[6] }}
+
+                                    </strong>
+
+                                </div>
+
+
+
+
+
+                                <!-- =================================
+                                     STATUS
+                                ================================== -->
+
+                                <div>
+
+                                    <span
+
+                                        class="status status-{{ ticket[5]|lower|replace(' ', '-') }}"
+
+                                    >
+
+                                        <span class="status-dot"></span>
+
+                                        {{ ticket[5] }}
+
+                                    </span>
+
+                                </div>
+
+
+
+                            </div>
+
+
+
+                        {% endfor %}
+
+
+
+                    </div>
+
+
+
+                {% else %}
+
+
+
+                    <!-- =================================
+                         EMPTY RESULT
+                    ================================== -->
+
+                    <div class="no-results">
+
+                        <div class="no-results-icon">
+
+                            ✓
+
+                        </div>
+
+
+
+                        <h3>
+
+                            Tidak ada tiket
+
+                        </h3>
+
+
+
+                        <p>
+
+                            Tidak ditemukan tiket dengan
+
+                            status "{{ status }}".
+
+                        </p>
+
+                    </div>
+
+
+
+                {% endif %}
+
+
+
+            {% endif %}
+
+
+
+
+
+            <!-- =========================================
+                 FOOTER
+            ========================================== -->
+
+            <div class="filter-footer">
+
+
+
+                <a href="/"
+
+                   class="secondary-button">
+
+                    Back to Dashboard
+
+                </a>
+
+
+
+                <a
+
+                    href="/tickets/add"
+
+                    class="primary-button small"
+
+                >
+
+                    + Create Ticket
+
+                </a>
+
+
+
+            </div>
+
+
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+```

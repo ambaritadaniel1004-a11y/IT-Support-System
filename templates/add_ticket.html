@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Buat Tiket | IT Support System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
+</head>
+
+<body>
+
+    <div class="form-page">
+
+        <div class="form-card">
+
+            <!-- HEADER -->
+
+            <div class="form-header">
+
+                <a href="/" class="back-link">
+                    ← Dashboard
+                </a>
+
+                <div class="form-icon ticket-icon">
+                    !
+                </div>
+
+                <span class="section-label">
+                    HELP DESK
+                </span>
+
+                <h1>Buat Tiket Masalah</h1>
+
+                <p>
+                    Laporkan masalah IT agar dapat ditangani
+                    oleh tim support.
+                </p>
+
+            </div>
+            
+
+
+            <!-- FORM -->
+             
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="modern-form">
+
+
+                <!-- TICKET ID -->
+
+                <div class="form-group">
+
+                    <label for="ticket_id">
+                        ID Tiket
+                    </label>
+
+                    <input
+                        type="text"
+                        id="ticket_id"
+                        name="ticket_id"
+                        placeholder="Contoh: T002"
+                        required
+                    >
+
+                    <small>
+                        Gunakan ID unik untuk setiap tiket.
+                    </small>
+
+                </div>
+
+
+                <!-- ASSET -->
+
+                <div class="form-group">
+
+                    <label for="asset_id">
+                        Perangkat / Aset
+                    </label>
+
+                    <select
+                        id="asset_id"
+                        name="asset_id"
+                        required
+                    >
+
+                        <option value="">
+                            Pilih perangkat
+                        </option>
+
+                        {% for asset in assets %}
+
+                        <option value="{{ asset[0] }}">
+
+                            {{ asset[0] }}
+                            -
+                            {{ asset[1] }}
+                            -
+                            {{ asset[2] }}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                    <small>
+                        Pilih perangkat yang mengalami masalah.
+                    </small>
+
+                </div>
+
+
+                <!-- REPORTER -->
+
+                <div class="form-group">
+
+                    <label for="reporter">
+                        Nama Pelapor
+                    </label>
+
+                    <input
+                        type="text"
+                        id="reporter"
+                        name="reporter"
+                        placeholder="Contoh: Daniel"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- PROBLEM -->
+
+                <div class="form-group">
+
+                    <label for="problem">
+                        Deskripsi Masalah
+                    </label>
+
+                    <textarea
+                        id="problem"
+                        name="problem"
+                        rows="5"
+                        placeholder="Jelaskan masalah yang terjadi..."
+                        required
+                    ></textarea>
+
+                    <small>
+                        Jelaskan masalah secara singkat dan jelas.
+                    </small>
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <div class="ticket-info">
+
+                    <div class="ticket-status-icon">
+                        ●
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Initial Status
+                        </strong>
+
+                        <span>
+                            Tiket baru akan dibuat dengan status
+                            <b>Open</b>.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTON -->
+
+                <div class="form-actions">
+
+                    <a href="/" class="secondary-button">
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="form-submit"
+                    >
+                        Create Ticket
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
