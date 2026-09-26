@@ -55,6 +55,26 @@ The application includes input validation for:
 * Duplicate Ticket ID
 * Asset existence when creating a ticket
 
+## Screenshots
+
+### Dashboard
+
+Dashboard memberikan gambaran umum mengenai aset IT, tiket support, distribusi status tiket, dan ketersediaan aset.
+
+![Dashboard](screenshots/dashboard.png)
+
+### Create Ticket
+
+Halaman pembuatan tiket digunakan untuk membuat tiket support dengan memilih aset, memasukkan nama pelapor, dan menjelaskan masalah yang dilaporkan.
+
+![Create Ticket](screenshots/create-ticket.png)
+
+### Add Asset
+
+Halaman penambahan aset digunakan untuk mendaftarkan aset IT baru beserta informasi perangkat, pengguna, dan status aset.
+
+![Add Asset](screenshots/add-asset.png)
+
 ## Tech Stack
 
 * **Python**
